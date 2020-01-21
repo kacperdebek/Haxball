@@ -50,6 +50,9 @@ public class MultiPlayerState extends BasicGameState {
 	MultiPlayerState() {
 	}
 
+	/**
+	 * Method used for register kryo classes
+	 */
 	private void registerKryoClasses() {
 		kryo.register(LoginRequest.class);
 		kryo.register(LoginResponse.class);
@@ -66,6 +69,10 @@ public class MultiPlayerState extends BasicGameState {
 		kryo.register(PacketUpdateBall.class);
 	}
 
+	/**
+	 * Connects new client to the multiplayer gameplay
+	 * @param ip clients ip
+	 */
 	private void connect(String ip) {
 		try {
 			Log.info("connecting...");
@@ -82,6 +89,11 @@ public class MultiPlayerState extends BasicGameState {
 		}
 	}
 
+	/**
+	 * Initializes client for multiplayer gameplay
+	 * @param container Game container from lwjgl
+	 * @param sbg State based game from lwjgl
+	 */
 	public void enter(GameContainer container, StateBasedGame sbg) {
 		String ip = MenuState.ipAddress;
 		this.udpPort = MenuState.port;
@@ -95,6 +107,12 @@ public class MultiPlayerState extends BasicGameState {
 		connect(ip);
 	}
 
+	/**
+	 * Initializes client resources
+	 * @param container Game container from lwjgl
+	 * @param sbg State based game from lwjgl
+	 * @throws SlickException exception thrown when something goes wrong
+	 */
 	public void init(GameContainer container, StateBasedGame sbg) throws SlickException {
 		circle = new Circle(400, 200, 8);
 		bg = new Image("res/background.jpg");
@@ -106,19 +124,53 @@ public class MultiPlayerState extends BasicGameState {
 		chatBox = new TextField(container, container.getDefaultFont(), 10, 365, 780, 20);
 	}
 
+	/**
+	 * Checks for collision between players
+	 * @param player Player controlled by user
+	 * @param mpPlayer Other player in multiplayer scenario
+	 * @return true if collision occurs false otherwise
+	 */
 	static boolean isCollision(PlayerChar player, MPPlayer mpPlayer) {
 		double dist = Math.sqrt(Math.pow(player.x - mpPlayer.x, 2) + Math.pow(player.y - mpPlayer.y, 2));
 		return dist < (mpPlayer.height / 2.0f + player.height / 2.0f);
 	}
+
+	/**
+	 * Substracts two points from each other
+	 * @param p1 First point
+	 * @param p2 Second point
+	 * @return Point after subtraction
+	 */
 	private static Point2D.Double subtract(Point2D.Double p1, Point2D.Double p2) {
 		return new Point2D.Double(p1.x - p2.x, p1.y - p2.y);
 	}
+
+	/**
+	 * Multiplies points and a double value
+	 * @param val double value
+	 * @param p2 Point
+	 * @return Resulting point
+	 */
 	private static Point2D.Double multiply(double val, Point2D.Double p2) {
 		return new Point2D.Double(val * p2.x, val * p2.y);
 	}
+
+	/**
+	 * Adds two points to each other
+	 * @param p1 First point
+	 * @param p2 Second point
+	 * @return Point after addition
+	 */
 	private static Point2D.Double add(Point2D.Double p1, Point2D.Double p2) {
 		return new Point2D.Double(p1.x + p2.x, p1.y + p2.y);
 	}
+
+	/**
+	 * Updates game status between frames
+	 * @param container Game container from lwjgl
+	 * @param sbg State based game from lwjgl
+	 */
+
 	public void update(GameContainer container, StateBasedGame sbg, int delta) {
 
 		if(flag == 0) {
@@ -147,6 +199,10 @@ public class MultiPlayerState extends BasicGameState {
 		spacePressed = false;
 		updatePackets();
 	}
+
+	/**
+	 * Handles smooth ball traveling animation
+	 */
 	private void runBallKickedAnimation(){
 		if(xKickedCounter != 0){
 			if(xKickedCounter > 0){
@@ -169,6 +225,11 @@ public class MultiPlayerState extends BasicGameState {
 			}
 		}
 	}
+
+	/**
+	 * Sends all needed packets for updating
+	 * @param isGoal parameter determining whether a goal was scored, and if yes which goal was the culprit
+	 */
 	private void handleScorePackets(int isGoal){
 		if(isGoal != 0){
 			if(isGoal == 1)
@@ -185,6 +246,11 @@ public class MultiPlayerState extends BasicGameState {
 			changeBallPosition(400, 200);
 		}
 	}
+
+	/**
+	 * Check for ball collision with boundaries
+	 * @param container Game container from lwjgl
+	 */
 	private void checkBoundariesCollision(GameContainer container){
 		if(circle.getCenterX() < circle.getWidth()/2.0f + 5){
 			circle.setCenterX(circle.getWidth() + 10);
@@ -207,6 +273,11 @@ public class MultiPlayerState extends BasicGameState {
 			xKickedCounter = 0;
 		}
 	}
+
+    /**
+     * Determine kick direction and set animation variables
+     * @param p3 point of collision between ball and player
+     */
 	private void handleCollisionFromAllSides(Point2D.Double p3){
 		if ((int) p3.x > (circle.getCenterX())) {
 			if ((int) p3.y > (circle.getCenterY() + 2)) {
@@ -236,6 +307,10 @@ public class MultiPlayerState extends BasicGameState {
 			}
 		}
 	}
+
+    /**
+     * Upon collision move the ball in correct direction
+     */
 	private void moveBallByPlayer(){
 		if (circle.getCenterX() > player.x + 5) {
 			circle.setCenterX(circle.getCenterX() + 5);
@@ -250,6 +325,11 @@ public class MultiPlayerState extends BasicGameState {
 			circle.setCenterY(circle.getCenterY() - 5);
 		}
 	}
+
+    /**
+     * Method for calcutaling the point of collision between ball and player
+     * @param dist distance between player and the ball
+     */
 	private void handleBallKicking(double dist){
 		if(dist < (player.width/2.0f + circle.getWidth()/2.0f) + 5){
 			if(spacePressed) {
@@ -261,6 +341,10 @@ public class MultiPlayerState extends BasicGameState {
 			}
 		}
 	}
+
+    /**
+     * check whether the ball collides with the left side goal
+     */
 	private void handleLeftGoalCollision(){
 		if(circle.getCenterX() < 82 && circle.getCenterY() > 95 && circle.getCenterY() < 105){
 			circle.setCenterY(95);
@@ -300,6 +384,10 @@ public class MultiPlayerState extends BasicGameState {
 			xKickedCounter = 0;
 		}
 	}
+
+    /**
+     * check whether the ball collides with the right goal
+     */
 	private void handleRightGoalCollision(){
 		if(circle.getX() > 704 && circle.getY() > 95 && circle.getY() < 105){
 			circle.setY(95);
@@ -339,6 +427,11 @@ public class MultiPlayerState extends BasicGameState {
 			xKickedCounter = 0;
 		}
 	}
+
+    /**
+     * check if the ball is within the boundaries of goal and determine if the goal was scored or not
+     * @return 1 if goal scored at the left goal, 2 if the goal was scored at the right goal, 0 otherwise
+     */
 	public int checkForScoredGoal(){
 		if(circle.getCenterX() < 82 && circle.getCenterY() < 273 && circle.getCenterY() > 130){
 			return 1;
@@ -348,6 +441,12 @@ public class MultiPlayerState extends BasicGameState {
 		}
 		return 0;
 	}
+
+    /**
+     * Method for rendering chat interface
+     * @param container Game container from lwjgl
+     * @param g Graphics for drawing graphics
+     */
 	private void renderChat(GameContainer container, Graphics g) {
 		g.setColor(new Color(117, 117, 117, 150));
 		g.fillRect(0, 0, 800, 400);
@@ -365,17 +464,33 @@ public class MultiPlayerState extends BasicGameState {
 			sendMessagePacket(message, player.userName);
 		}
 	}
+
+	/**
+	 * Method for controlling the chat size, removing excess messages starting from the top
+	 */
 	public static void controlChatSize(){
 		if(chatLog.size() > 17){
 			chatLog.remove(0);
 		}
 	}
+
+	/**
+	 * Method for sending chat message message packet to the server
+	 * @param message Message contents
+	 * @param userName Username of the author
+	 */
 	private void sendMessagePacket(String message, String userName){
 		NetworkClasses.Message mPacket = new NetworkClasses.Message();
 		mPacket.message = message;
 		mPacket.userName = userName;
 		client.sendTCP(mPacket);
 	}
+
+	/**
+	 * Method used for changing the ball position
+	 * @param x new center point x coord for the ball
+	 * @param y new center point y coord for the ball
+	 */
 	private void changeBallPosition(float x, float y) {
 		circle.setCenterX(x);
 		circle.setCenterY(y);
@@ -384,6 +499,10 @@ public class MultiPlayerState extends BasicGameState {
 		packet.y = circle.getCenterY();
 		client.sendUDP(packet);
 	}
+
+	/**
+	 * Method sending updated information about players to the server
+	 */
 	private void updatePackets(){
 		if(player.netX != player.x) {
 			NetworkClasses.PacketUpdateX packetX = new NetworkClasses.PacketUpdateX();
@@ -398,6 +517,13 @@ public class MultiPlayerState extends BasicGameState {
 			player.netY = player.y;
 		}
 	}
+
+	/**
+	 * Method for rendering all the game graphics
+	 * @param container Game container from lwjgl
+	 * @param sbg State based game from lwjgl
+	 * @param g Graphics for drawing graphics
+	 */
 	public void render(GameContainer container, StateBasedGame sbg, Graphics g) {
 		g.drawImage(bg, 0, 0);
 		g.setFont(ttf32);
@@ -413,6 +539,11 @@ public class MultiPlayerState extends BasicGameState {
 			renderChat(container, g);
 		}
 	}
+
+	/**
+	 * Getter for current state id
+	 * @return returns 2
+	 */
 	public int getID() {
 		return 2;
 	}

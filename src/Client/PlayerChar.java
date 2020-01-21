@@ -24,6 +24,9 @@ public class PlayerChar {
 
 	public Connection c;
 
+	/**
+	 * Constructor for player character used for automatically setting up basic parameters
+	 */
 	public PlayerChar() {
 		Random rand = new Random();
 		x = rand.nextInt(800);
@@ -32,6 +35,11 @@ public class PlayerChar {
 		height = 32;
 	}
 
+	/**
+	 * Method for updating players current parameters and checking his current status
+	 * @param delta
+	 * @param container Game container from lwjgl
+	 */
 	void update(int delta, GameContainer container) {
 		float tempX = x;
 		float tempY = y;
@@ -63,12 +71,21 @@ public class PlayerChar {
 		}
 	}
 
+	/**
+	 * Method for rendering all user related graphics
+	 * @param g Graphics used for drawing
+	 * @param c Color used for the player entity
+	 */
 	public void render(Graphics g, Color c) {
 		g.setColor(c);
 //		if(y > 3 && userName != null) g.drawString(this.userName, x - this.userName.length() * 4, y - height);
 //		else if(y <= 3 && userName != null) g.drawString(this.userName, x - this.userName.length() * 4, y + height);
 		g.fillOval(x - width/2.0f, y - height/2.0f, width, height);
 	}
+
+	/**
+	 * Method for checking player characters collision with right goal
+	 */
 	private void checkRightGoalCollision(){
 		if(x > 720 && y > 90 && y < 115){
 			y = 90;
@@ -94,6 +111,9 @@ public class PlayerChar {
 			y = 315;
 		}
 	}
+	/**
+	 * Method for checking player characters collision with left goal
+	 */
 	private void checkLeftGoalCollision(){
 		if(x < 80 && y > 90 && y < 115){
 			y = 90;

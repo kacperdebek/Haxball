@@ -13,6 +13,10 @@ public class MainServerListener extends Listener {
 
 	public static Map<Integer, PlayerChar> players = new HashMap<Integer, PlayerChar>();
 
+	/**
+	 * Method for maintaining user connections and creating new player entities
+	 * @param connection
+	 */
 	public void connected(Connection connection) {
 		PlayerChar player = new PlayerChar();
 		player.c = connection;
@@ -31,6 +35,10 @@ public class MainServerListener extends Listener {
 		MainServer.jTextArea.append("\n");
 	}
 
+	/**
+	 * Method for handing clients disconnections
+	 * @param connection
+	 */
 	public void disconnected(Connection connection) {
 		players.remove(connection.getID());
 		NetworkClasses.PacketRemovePlayer removePacket = new NetworkClasses.PacketRemovePlayer();
@@ -40,6 +48,11 @@ public class MainServerListener extends Listener {
 		MainServer.jTextArea.append("\n");
 	}
 
+	/**
+	 * Method for handling packets recieved from clients
+	 * @param connection Connection by which server can identify clients
+	 * @param object Object containing certain packets information
+	 */
 	public void received(Connection connection, Object object) {
 		if(object instanceof LoginRequest) {
 			LoginRequest request = (LoginRequest) object;

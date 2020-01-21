@@ -16,6 +16,10 @@ public class PlayerClient extends StateBasedGame {
 		super(title);
 	}
 
+	/**
+	 * Method for initializing list of states such as menu and gameplay state
+	 * @param container Game container from lwjgl
+	 */
 	public void initStatesList(GameContainer container) {
 		this.addState(new MenuState());
 		this.addState(new MultiPlayerState());
@@ -32,6 +36,10 @@ public class PlayerClient extends StateBasedGame {
 		app.start();
 	}
 
+	/**
+	 * Method for recieving username from user input
+	 * @return returns user inputted username
+	 */
 	private static String getUserName() {
 		String s = "";
 		JLabel label_login = new JLabel("Username:");

@@ -29,6 +29,11 @@ public class MainServer {
 	static JTextArea jTextArea;
 	private static MainServerListener listener = new MainServerListener();
 
+    /**
+     * Server constructor
+     * @param tcpPort port for tcp
+     * @param udpPort port for udp
+     */
 	public MainServer(int tcpPort, int udpPort) {
 		this.tcpPort = tcpPort;
 		this.udpPort = udpPort;
@@ -36,6 +41,10 @@ public class MainServer {
 		kryo = server.getKryo();
 		registerKryoClasses();
 	}
+
+    /**
+     * Method for starting the server
+     */
 	private void startServer() {
 		Log.info("Starting Server");
 		jTextArea.append("Starting Server...");
@@ -55,6 +64,10 @@ public class MainServer {
 			e.printStackTrace();
 		}
 	}
+
+    /**
+     * Method used for stopping the server
+     */
 	private static void stopServer() {
 		Log.info("Server stopped");
 		jTextArea.append("Server stopped.");
@@ -68,6 +81,9 @@ public class MainServer {
 		}
 	}
 
+    /**
+     * Method used for registering kryo classes
+     */
 	private void registerKryoClasses() {
 		kryo.register(LoginRequest.class);
 		kryo.register(LoginResponse.class);
@@ -84,6 +100,9 @@ public class MainServer {
 		kryo.register(PacketUpdateBall.class);
 	}
 
+    /**
+     * Creates server interface
+     */
 	private static void createServerInterface() {
 		jFrame = new JFrame("GameServerInterface");
 		jTextArea = new JTextArea();

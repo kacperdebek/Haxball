@@ -8,7 +8,11 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
 
 public class PlayerClientListener extends Listener {
-	
+	/**
+	 * Kryonet method for recieving data from server
+	 * @param connection Client connection
+	 * @param object Object containing diffirent packets of data
+	 */
 	public void received(Connection connection, Object object) {
 		if (object instanceof LoginResponse) {
 			LoginResponse response = (LoginResponse) object;

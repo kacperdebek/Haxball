@@ -13,6 +13,7 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class MenuState extends BasicGameState {
+
 	private static final int ID_MULTIPLAYERSTATE = 2;
 
 	static String ipAddress;
@@ -25,11 +26,22 @@ public class MenuState extends BasicGameState {
 
 	static Input inputHandler;
 
+    /**
+     * Method for initializing resources
+     * @param container Game container from lwjgl
+     * @param sbg State based game from lwjgl
+     * @throws SlickException exception thrown when unsuccessful
+     */
 	public void init(GameContainer container, StateBasedGame sbg) throws SlickException {
 		inputHandler = container.getInput();
 		bg = new Image("res/menubg.jpg");
 	}
 
+    /**
+     *
+     * @param container Game container from lwjgl
+     * @param sbg State based game from lwjgl
+     */
 	public void update(GameContainer container, StateBasedGame sbg, int delta) {
 		posX = Mouse.getX();
 		posY = Mouse.getY();
@@ -60,6 +72,12 @@ public class MenuState extends BasicGameState {
 		}
 	}
 
+	/**
+	 * Method used for rendering menu graphics and content
+	 * @param container Game container from lwjgl
+	 * @param sbg State based game from lwjgl
+	 * @param g Graphics used for drawing objects
+	 */
 	public void render(GameContainer container, StateBasedGame sbg, Graphics g) {
 		g.drawImage(bg, 0 ,0);
 		g.setColor(Color.black);
@@ -77,6 +95,10 @@ public class MenuState extends BasicGameState {
 		}
 	}
 
+	/**
+	 * Getter for state id
+	 * @return returns 0 - menu id
+	 */
 	public int getID() {
 		return 0;
 	}
