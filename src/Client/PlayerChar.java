@@ -9,6 +9,9 @@ import org.newdawn.slick.Input;
 
 import com.esotericsoftware.kryonet.Connection;
 
+/**
+ * Player entity class
+ */
 public class PlayerChar {
 
 	public float x;

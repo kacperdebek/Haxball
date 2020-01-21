@@ -25,7 +25,9 @@ import NetworkClasses.LoginRequest;
 import NetworkClasses.LoginResponse;
 import NetworkClasses.Message;
 
-
+/**
+ * Multiplayer overall gameplay handling class
+ */
 public class MultiPlayerState extends BasicGameState {
 	private int tcpPort;
 	private int udpPort;

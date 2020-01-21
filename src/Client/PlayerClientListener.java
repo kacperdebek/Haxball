@@ -7,6 +7,9 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
 
+/**
+ * Player listener for packages coming from server
+ */
 public class PlayerClientListener extends Listener {
 	/**
 	 * Kryonet method for recieving data from server

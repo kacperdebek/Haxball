@@ -1,5 +1,8 @@
 package NetworkClasses;
 
+/**
+ * Login request packet
+ */
 public class LoginRequest {
 
 	private String userName;

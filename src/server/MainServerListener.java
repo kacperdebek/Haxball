@@ -9,6 +9,9 @@ import com.esotericsoftware.kryonet.Listener;
 
 import Client.PlayerChar;
 
+/**
+ * Listener class for server
+ */
 public class MainServerListener extends Listener {
 
 	public static Map<Integer, PlayerChar> players = new HashMap<Integer, PlayerChar>();

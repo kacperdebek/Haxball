@@ -12,6 +12,9 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+/**
+ * Main menu class
+ */
 public class MenuState extends BasicGameState {
 
 	private static final int ID_MULTIPLAYERSTATE = 2;

@@ -9,6 +9,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+/**
+ * Client side of connection
+ */
 public class PlayerClient extends StateBasedGame {
 
 	public static String userName;

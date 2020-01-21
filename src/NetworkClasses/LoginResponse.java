@@ -1,5 +1,8 @@
 package NetworkClasses;
 
+/**
+ * Login response packet
+ */
 public class LoginResponse {
 
 	private String responseText;

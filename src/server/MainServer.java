@@ -18,6 +18,9 @@ import NetworkClasses.LoginRequest;
 import NetworkClasses.LoginResponse;
 import NetworkClasses.Message;
 
+/**
+ * Server side gui and connection handling class
+ */
 public class MainServer {
 
 	private int tcpPort;

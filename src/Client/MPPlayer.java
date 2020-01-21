@@ -3,6 +3,9 @@ package Client;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
+/**
+ * Multiplayer character entity class
+ */
 public class MPPlayer {
 
 	float x = 256, y = 256;
